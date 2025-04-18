@@ -6,8 +6,10 @@ import com.mga44.complaint.model.ComplaintCreateRequest;
 import com.mga44.complaint.model.ComplaintUpdateRequest;
 import com.mga44.complaint_service.complaint.service.ComplaintService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -45,11 +47,16 @@ public class ComplaintController implements ComplaintApi {
 
     @Override
     public ResponseEntity<Complaint> getSingleComplaint(String id) {
-        return ResponseEntity.ok(complaintService.findComplaint(id));
+        Complaint complaint = complaintService.findComplaint(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Not found"));
+
+        return ResponseEntity.ok(complaint);
     }
 
     @Override
     public ResponseEntity<Void> updateComplaint(String id, ComplaintUpdateRequest complaintUpdateRequest) {
-        return null;
+        complaintService.updateComplaint(id, complaintUpdateRequest);
+
+        return ResponseEntity.ok().build();
     }
 }

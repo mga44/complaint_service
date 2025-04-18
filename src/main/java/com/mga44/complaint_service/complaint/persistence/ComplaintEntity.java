@@ -1,9 +1,6 @@
 package com.mga44.complaint_service.complaint.persistence;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.ToString;
+import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -22,7 +19,8 @@ public class ComplaintEntity {
     private final String id;
     private final Long productId;
 
-    private final String complaintContent;
+    @Setter
+    private String complaintContent;
 
     private final LocalDate creationDate;
 
@@ -30,5 +28,6 @@ public class ComplaintEntity {
 
     private final String country;
 
-    private final Integer complaintCounter;
+    @Setter
+    private Integer complaintCounter;
 }
