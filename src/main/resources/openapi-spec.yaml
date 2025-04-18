@@ -1,0 +1,46 @@
+openapi: 3.0.4
+info:
+  title: Complaint Service
+  version: 1.0.12
+servers:
+  - url: localhost
+tags:
+  - name: complaint
+paths:
+  /complaint:
+    get:
+      tags:
+        - complaint
+      summary: Get complaints
+      operationId: getComplaint
+      responses:
+        '200':
+          description: Succesful read
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Complaint'
+
+components:
+  schemas:
+    Complaint:
+      type: objects
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 10
+        complaintContent:
+          type: string
+        creationDate:
+          type: date
+        complaintUserId:
+          type: integer
+          format: int64
+        country:
+          type: string
+        complaintCounter:
+          type: integer
+          format: int
