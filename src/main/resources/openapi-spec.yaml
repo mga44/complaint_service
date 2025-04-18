@@ -15,14 +15,76 @@ paths:
       operationId: getComplaint
       responses:
         '200':
-          description: Succesful read
+          description: Successful read
           content:
             application/json:
               schema:
                 type: array
                 items:
                   $ref: '#/components/schemas/Complaint'
-
+    post:
+      parameters:
+        - in: header
+          name: X-Forwarded-For
+          schema:
+            type: string
+          required: true
+      tags:
+        - complaint
+      operationId: addComplaint
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ComplaintCreateRequest'
+      responses:
+        '201':
+            description: 'Complaint created'
+        '400':
+          description: "Bad request"
+  /complaint/{id}:
+    parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+          format: int64
+    get:
+      tags:
+        - complaint
+      operationId: getSingleComplaint
+      responses:
+        '200':
+          description: "Returned complaint"
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/Complaint'
+        '404':
+          description: "No complaint found"
+    put:
+      tags:
+        - complaint
+      operationId: updateComplaint
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ComplaintUpdateRequest'
+      responses:
+        '204':
+          description: "Complaint updated"
+        '400':
+          description: "Bad request"
+        '404':
+          description: "No complaint found"
+    delete:
+      tags:
+        - complaint
+      operationId: deleteComplaint
+      responses:
+        '204':
+          description: "Complaint deleted"
 components:
   schemas:
     Complaint:
@@ -31,12 +93,14 @@ components:
         id:
           type: integer
           format: int64
-          example: 10
+        productId:
+          type: integer
+          format: int64
         complaintContent:
           type: string
         creationDate:
           type: date
-        complaintUserId:
+        userId:
           type: integer
           format: int64
         country:
@@ -44,3 +108,21 @@ components:
         complaintCounter:
           type: integer
           format: int
+    ComplaintCreateRequest:
+      type: object
+      properties:
+        productId:
+          type: integer
+          format: int64
+        complaintContent:
+          type: string
+        creationDate:
+          type: date
+        userId:
+          type: integer
+          format: int64
+    ComplaintUpdateRequest:
+      type: object
+      properties:
+        complaintContent:
+          type: string
