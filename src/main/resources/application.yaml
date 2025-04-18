@@ -1,3 +1,6 @@
 spring:
   application:
     name: complaint_service
+  data:
+    mongodb:
+      uri: mongodb://me:pass123@localhost:27017/complaint_db?authSource=admin
