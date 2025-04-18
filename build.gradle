@@ -36,14 +36,17 @@ openApiGenerate {
 	inputSpec = "$rootDir/src/main/resources/openapi-spec.yaml"
 	apiPackage = "com.mga44.complaint.api"
 	modelPackage = "com.mga44.complaint.model"
-	invokerPackage = "com.mga44.complaint.invoker"
-	configOptions = ["dateLibrary": "java8"]
+	configOptions = [
+			"dateLibrary": "java8",
+			"interfaceOnly": "true",
+			"skipDefaultInterface": "true"
+	]
 }
 
 sourceSets {
 	main {
 		java {
-			srcDir "$buildDir/generated/src/main/java"
+			srcDir "$buildDir/generate-resources/main/src/main/java"
 		}
 	}
 }

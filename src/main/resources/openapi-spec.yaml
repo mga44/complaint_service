@@ -26,7 +26,7 @@ paths:
 components:
   schemas:
     Complaint:
-      type: objects
+      type: object
       properties:
         id:
           type: integer
