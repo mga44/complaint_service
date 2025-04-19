@@ -11,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -33,17 +32,7 @@ public class ComplaintController implements ComplaintApi {
 
     @Override
     public ResponseEntity<List<Complaint>> getComplaint() {
-        Complaint e1 = new Complaint();
-        e1.complaintContent("Not working");
-        e1.setCountry("PL");
-        e1.setCreationDate(LocalDate.ofEpochDay(10));
-        e1.setComplaintCounter(1);
-        Complaint e2 = new Complaint();
-        e1.complaintContent("Not working #2");
-        e1.setCountry("PL");
-        e1.setCreationDate(LocalDate.ofEpochDay(10));
-        e1.setComplaintCounter(1);
-        return ResponseEntity.ok(List.of(e1, e2)); //TODO implement pagination
+        return ResponseEntity.ok(complaintService.findAllComplaints());
     }
 
     @Override
