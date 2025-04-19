@@ -55,8 +55,11 @@ public class ComplaintController implements ComplaintApi {
 
     @Override
     public ResponseEntity<Void> updateComplaint(String id, ComplaintUpdateRequest complaintUpdateRequest) {
-        complaintService.updateComplaint(id, complaintUpdateRequest);
-
-        return ResponseEntity.ok().build();
+        try {
+            complaintService.updateComplaint(id, complaintUpdateRequest);
+            return ResponseEntity.ok().build();
+        } catch (IllegalArgumentException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Not found");
+        }
     }
 }
