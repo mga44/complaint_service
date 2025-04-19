@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -36,7 +37,7 @@ public class ComplaintService {
         }
 
         var complaint = possibleComplaint.get();
-        if (complaint.getComplaintContent().equals(complaintUpdateRequest.getComplaintContent())) {
+        if (Objects.equals(complaint.getComplaintContent(), complaintUpdateRequest.getComplaintContent())) {
             return;
         }
 
