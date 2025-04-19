@@ -27,7 +27,8 @@ public class ComplaintController implements ComplaintApi {
 
     @Override
     public ResponseEntity<Void> deleteComplaint(String id) {
-        return null;
+        complaintService.deleteComplaint(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
     @Override

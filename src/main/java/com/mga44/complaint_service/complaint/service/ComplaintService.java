@@ -6,6 +6,7 @@ import com.mga44.complaint_service.complaint.mapper.ComplaintMapper;
 import com.mga44.complaint_service.complaint.persistence.ComplaintEntity;
 import com.mga44.complaint_service.complaint.persistence.ComplaintRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -38,5 +39,9 @@ public class ComplaintService {
         complaint.setComplaintContent(complaintUpdateRequest.getComplaintContent());
         complaint.setComplaintCounter(complaint.getComplaintCounter() + 1);
         complaintRepository.save(complaint);
+    }
+
+    public void deleteComplaint(String id) {
+        complaintRepository.deleteById(id);
     }
 }
