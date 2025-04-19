@@ -21,7 +21,8 @@ public class ComplaintController implements ComplaintApi {
 
     @Override
     public ResponseEntity<Void> addComplaint(String xForwardedFor, ComplaintCreateRequest complaintCreateRequest) {
-        return null;
+        complaintService.createComplaint(xForwardedFor, complaintCreateRequest);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @Override

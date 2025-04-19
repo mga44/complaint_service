@@ -1,12 +1,12 @@
 package com.mga44.complaint_service.complaint.service;
 
 import com.mga44.complaint.model.Complaint;
+import com.mga44.complaint.model.ComplaintCreateRequest;
 import com.mga44.complaint.model.ComplaintUpdateRequest;
 import com.mga44.complaint_service.complaint.mapper.ComplaintMapper;
 import com.mga44.complaint_service.complaint.persistence.ComplaintEntity;
 import com.mga44.complaint_service.complaint.persistence.ComplaintRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -48,5 +48,22 @@ public class ComplaintService {
 
     public List<Complaint> findAllComplaints() {
         return complaintRepository.findAll().stream().map(complaintMapper::toComplaint).toList();
+    }
+
+    public void createComplaint(String xForwardedForHeader, ComplaintCreateRequest complaintCreateRequest) {
+        var possibleExistingComplaint = complaintRepository.findByProductIdAndUserId(
+                complaintCreateRequest.getProductId(),
+                complaintCreateRequest.getUserId()
+        );
+
+        if (possibleExistingComplaint.isPresent()) {
+            var complaint = possibleExistingComplaint.get();
+            complaint.setComplaintCounter(complaint.getComplaintCounter() + 1);
+            complaintRepository.save(complaint);
+            return;
+        }
+        var country = "some default country";
+        var complaintEntity = complaintMapper.toComplaintEntity(complaintCreateRequest, country);
+        complaintRepository.save(complaintEntity);
     }
 }

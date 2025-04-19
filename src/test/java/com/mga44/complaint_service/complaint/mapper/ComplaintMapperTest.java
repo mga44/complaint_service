@@ -1,6 +1,7 @@
 package com.mga44.complaint_service.complaint.mapper;
 
 import com.mga44.complaint.model.Complaint;
+import com.mga44.complaint.model.ComplaintCreateRequest;
 import com.mga44.complaint_service.complaint.persistence.ComplaintEntity;
 import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
@@ -38,4 +39,24 @@ class ComplaintMapperTest {
         assertThat(complaintDto).isEqualTo(expectedDto);
     }
 
+    @Test
+    void shouldMapComplaintCreateRequestToComplaintEntity() {
+        var complaintCreateRequest = new ComplaintCreateRequest()
+                .productId(1L)
+                .complaintContent("some message")
+                .creationDate(LocalDate.ofEpochDay(100))
+                .userId(2L);
+
+        var complaintEntity = mapper.toComplaintEntity(complaintCreateRequest, "PL");
+
+        var expected = ComplaintEntity.builder()
+                .productId(1L)
+                .complaintContent("some message")
+                .creationDate(LocalDate.ofEpochDay(100))
+                .userId(2L)
+                .country("PL")
+                .complaintCounter(1)
+                .build();
+        assertThat(complaintEntity).isEqualTo(expected);
+    }
 }
