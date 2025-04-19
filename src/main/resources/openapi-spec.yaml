@@ -108,6 +108,11 @@ components:
           format: int
     ComplaintCreateRequest:
       type: object
+      required:
+        - productId
+        - complaintContent
+        - creationDate
+        - userId
       properties:
         productId:
           type: integer
@@ -121,6 +126,8 @@ components:
           format: int64
     ComplaintUpdateRequest:
       type: object
+      required:
+        - complaintContent
       properties:
         complaintContent:
           type: string
