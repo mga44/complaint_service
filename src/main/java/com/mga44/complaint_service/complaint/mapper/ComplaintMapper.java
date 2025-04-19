@@ -6,7 +6,7 @@ import com.mga44.complaint_service.complaint.persistence.ComplaintEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface ComplaintMapper {
     Complaint toComplaint(ComplaintEntity entity);
 

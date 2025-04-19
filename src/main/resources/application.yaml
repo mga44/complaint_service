@@ -4,3 +4,7 @@ spring:
   data:
     mongodb:
       uri: mongodb://me:pass123@localhost:27017/complaint_db?authSource=admin
+
+
+countryService:
+  url: http://ip-api.com/json/

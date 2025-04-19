@@ -16,7 +16,6 @@ import java.time.LocalDate;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.fail;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -28,6 +27,9 @@ class ComplaintServiceAddTest {
 
     @Spy
     ComplaintMapperImpl complaintMapper;
+
+    @Mock
+    CountryService countryService;
 
     @InjectMocks
     ComplaintService complaintService;
@@ -72,6 +74,12 @@ class ComplaintServiceAddTest {
 
     @Test
     void shouldResolveCountryByIp() {
-        fail();
+        var request = new ComplaintCreateRequest();
+        String xForwardedForHeader = "203.0.113.195, 2001:db8:85a3:8d3:1319:8a2e:370:7348";
+        when(countryService.resolveByIp("203.0.113.195")).thenReturn(Optional.of("Laos"));
+
+        complaintService.createComplaint(xForwardedForHeader, request);
+
+        verify(complaintRepository).save(ComplaintEntity.builder().country("Laos").complaintCounter(1).build());
     }
 }

@@ -21,6 +21,9 @@ public class ComplaintService {
     @Autowired
     private ComplaintMapper complaintMapper;
 
+    @Autowired
+    private CountryService countryService;
+
     public Optional<Complaint> findComplaint(String id) {
         Optional<ComplaintEntity> possibleComplaint = complaintRepository.findById(id);
         return possibleComplaint.map(complaintMapper::toComplaint);
@@ -62,8 +65,10 @@ public class ComplaintService {
             complaintRepository.save(complaint);
             return;
         }
-        var country = "some default country";
-        var complaintEntity = complaintMapper.toComplaintEntity(complaintCreateRequest, country);
+
+        var originalIp = xForwardedForHeader.split(",")[0].trim();
+        var possibleCountry = countryService.resolveByIp(originalIp);
+        var complaintEntity = complaintMapper.toComplaintEntity(complaintCreateRequest, possibleCountry.orElse(null));
         complaintRepository.save(complaintEntity);
     }
 }
