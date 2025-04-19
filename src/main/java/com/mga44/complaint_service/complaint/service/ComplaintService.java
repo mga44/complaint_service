@@ -6,9 +6,7 @@ import com.mga44.complaint_service.complaint.mapper.ComplaintMapper;
 import com.mga44.complaint_service.complaint.persistence.ComplaintEntity;
 import com.mga44.complaint_service.complaint.persistence.ComplaintRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Optional;
 
@@ -29,7 +27,7 @@ public class ComplaintService {
     public void updateComplaint(String id, ComplaintUpdateRequest complaintUpdateRequest) {
         var possibleComplaint = complaintRepository.findById(id);
         if (possibleComplaint.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Not found"); //TODO: change this to better exception, translated by handler
+            throw new IllegalArgumentException("Not found complaint with id [%s]".formatted(id));
         }
 
         var complaint = possibleComplaint.get();

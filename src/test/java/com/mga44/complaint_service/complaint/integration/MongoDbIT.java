@@ -17,19 +17,12 @@ class MongoDbIT {
     private ComplaintRepository repository;
 
     @Test
-    void shouldHandleDatabaseOperations() { //TODO: refactor
+    void shouldDeleteDatabaseEntity() { //TODO: refactor
         var complaint = ComplaintEntity.builder()
                 .complaintContent("bad product")
                 .build();
 
         var saved = repository.save(complaint);
-        var fromDb = repository.findById(saved.getId());
-
-
-        assertThat(saved.getId()).isNotNull();
-        assertThat(fromDb).isPresent();
-        assertThat(fromDb.get().getComplaintContent()).isEqualTo("bad product");
-
         repository.deleteById(saved.getId());
 
         assertThat(repository.findById(saved.getId())).isEmpty();
@@ -69,11 +62,21 @@ class MongoDbIT {
 
         var saved = repository.save(complaint);
         var saved2 = repository.save(complaint2);
-        var fromDb = repository.findById(saved2.getId()).orElseThrow();
 
-        assertThat(saved2)
-                .usingRecursiveComparison()
-                .ignoringFields("id")
-                .isEqualTo(fromDb);
+        assertThat(repository.count()).isEqualTo(1);
+    }
+
+    @Test
+    void shouldUpdateEntity() {
+        var complaint = ComplaintEntity.builder().build();
+
+        var saved = repository.save(complaint);
+
+        saved.setComplaintContent("New content");
+        repository.save(saved);
+
+        assertThat(repository.findById(saved.getId()).orElseThrow())
+                .extracting(ComplaintEntity::getComplaintContent)
+                .isEqualTo("New content");
     }
 }

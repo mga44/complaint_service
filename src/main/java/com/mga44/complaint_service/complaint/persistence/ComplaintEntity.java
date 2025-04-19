@@ -13,6 +13,7 @@ import java.time.LocalDate;
 @Getter
 @AllArgsConstructor
 @ToString
+@EqualsAndHashCode
 public class ComplaintEntity {
 
     @Id
